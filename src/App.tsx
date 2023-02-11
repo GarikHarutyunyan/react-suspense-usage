@@ -1,25 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import React, { Suspense } from "react";
+import Third from "./Third";
+
+const First = React.lazy(()=> import('./First'));
+const Second = React.lazy(()=> import('./Second'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <ul>
+          <li>
+            <Link to="/">First</Link>
+          </li>
+          <li>
+            <Link to="/second">Second</Link>
+          </li>
+          <li>
+            <Link to="/third">Third</Link>
+          </li>
+        </ul>
+        <Switch>
+          <Route exact path="/">
+            <Suspense fallback={"Loaaaadding..."}>
+              <First />
+            </Suspense>
+          </Route>
+          <Route exact path="/second">
+            <Suspense fallback={"Loaaaadding...2"}>
+              <Second />
+            </Suspense>
+          </Route>
+          <Route path="/third">
+            <Third />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
